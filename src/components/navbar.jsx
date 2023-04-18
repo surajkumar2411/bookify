@@ -9,17 +9,19 @@ const MyNavbar = () => {
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand href="/">BOOKIFY</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/book/list">Add Listing</Nav.Link>
-            
+          </Nav>
+          <Nav>
+            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/register">Register</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
     </>
   );
 };
-
 
 export default MyNavbar;

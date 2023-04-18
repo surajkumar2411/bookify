@@ -11,8 +11,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import {getFirestore, collection, addDoc} from "firebase/firestore";
-import {getStorage, ref, uploadBytes} from "firebase/storage";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const FirebaseContext = createContext(null);
 
@@ -24,7 +24,6 @@ const firebaseConfig = {
   messagingSenderId: "762102901179",
   appId: "1:762102901179:web:5c9308f46749446be07c9e",
 };
-
 
 export const useFirebase = () => useContext(FirebaseContext);
 
@@ -53,23 +52,28 @@ export const FirebaseProvider = (props) => {
 
   const signinWithGoogle = () => signInWithPopup(firebaseAuth, GoogleProvider);
 
-  console.log(user);
-
   const handleCreatenewListing = async (name, isbn, price, cover) => {
     const imageRef = ref(storage, `uploads/images/${Date.now()}-${cover.name}`);
-    const uploadResult = await uploadBytes(imageRef,cover);
-    return await addDoc(collection(firestore, 'books'), {
+    const uploadResult = await uploadBytes(imageRef, cover);
+    return await addDoc(collection(firestore, "books"), {
       name,
       isbn,
       price,
       imageURL: uploadResult.ref.fullPath,
-      userId : user.uid,
+      userId: user.uid,
       userEmail: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-
     });
-  }
+  };
+
+  const listAllBooks = () => {
+    return getDocs(collection(firestore, "books"));
+  };
+
+  const getImageURL = (path) => {
+    return getDownloadURL(ref(storage, path));
+  };
 
   const isLoggedIn = user ? true : false;
 
@@ -80,6 +84,8 @@ export const FirebaseProvider = (props) => {
         signinWithEmailAndPass,
         signinWithGoogle,
         handleCreatenewListing,
+        listAllBooks,
+        getImageURL,
         isLoggedIn,
       }}
     >

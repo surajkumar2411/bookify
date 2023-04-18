@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 import { useFirebase } from "../context/firebase";
 
 const ListingPage = () => {
-    const firebase = useFirebase();
+  const firebase = useFirebase();
   const [name, setName] = useState("");
   const [isbnNumber, setIsbnNumber] = useState("");
   const [price, setPrice] = useState("");
@@ -62,7 +62,6 @@ const ListingPage = () => {
         <Button variant="primary" type="submit">
           Create
         </Button>
-        
       </Form>
     </div>
   );
